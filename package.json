@@ -1,0 +1,19 @@
+{
+  "name": "playlist.party-server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "./node_modules/.bin/nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "antoinechalifour <antoine.chalifour@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.4"
+  }
+}
