@@ -14,6 +14,8 @@ module.exports = function PartyService ({ partyRepository }) {
       }
 
       partyRepository.create(name, code, hostId)
+
+      return partyRepository.find(name)
     },
     joinParty (name, code, guestId) {
       const party = partyRepository.find(name)
@@ -27,6 +29,8 @@ module.exports = function PartyService ({ partyRepository }) {
       }
 
       partyRepository.addGuest(name, guestId)
+
+      return partyRepository.find(name)
     },
     leaveParty (name, guestId) {
       const party = partyRepository.find(name)
@@ -36,6 +40,8 @@ module.exports = function PartyService ({ partyRepository }) {
       }
 
       partyRepository.removeGuest(name, guestId)
+
+      return partyRepository.find(name)
     },
     deleteParty (name) {
       const party = partyRepository.find(name)
@@ -45,6 +51,8 @@ module.exports = function PartyService ({ partyRepository }) {
       }
 
       partyRepository.delete(name)
+
+      return party
     }
   }
 }
