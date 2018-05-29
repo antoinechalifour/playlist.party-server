@@ -6,6 +6,7 @@ cache:
   - node_modules
 before_script:
 - npm run lint
+- npm test
 script: npm run deploy
 after_script: 
   - npm run alias
