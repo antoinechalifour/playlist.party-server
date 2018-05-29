@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "dev": "./node_modules/.bin/nodemon index.js",
     "test": "./node_modules/.bin/jest",
     "lint": "./node_modules/.bin/standard",
