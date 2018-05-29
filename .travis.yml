@@ -1,9 +1,14 @@
----
 language: node_js
 node_js:
-  - 8
+- 8
 cache:
   directories:
-    - node_modules
+  - node_modules
 before_script:
-  - npm run lint
+- npm run lint
+script: npm run deploy
+after_script: 
+  - npm run alias
+env:
+  global:
+    secure: WANXBq1sWCicU2/CLmMPZ6pbJ/3Of7sKaJNOpL76vS1/85IpSuLIqZrUhWns165/AAYTaej3Zv/PNxjDpxTMnREbKbZ2L9GO/AwfLAsfQvQzfk4wtsekpJT8aMkH4KVyWXmrE5L60xtOssw8ZL9NrXawy6GdR5amioWMI4btdLQSxKk+MxoxNjLkPu0Wwt4mQBwXBI2eQj422fvjEBjzIzW17OVGR9bj6VHIJLqSQuIo6TvWPk3rwu/AcUHRpiDw80FRF16evWnh4A0PQWy07Dk8zuM74NnbAa0Nf5NPKZ5+eVf6ePAJ3erXS2ahNxleNUZVUBWAu4naKdlupDdXtdH+TN2es1+mM6Kjg+2WvBRQwlhsoyTQaoc/68NZJ+UvQNk81I8LnmiZXw86zcwDk21hRAkMBjqd8JgiUbgkiRLjSYxgkx33h1A+5BeW0scwbUOZ0TqACyXLwP4LFMvB09EY++wWs0JXrLq1BYa5r8TneNK2RwbxZrrSyboT9Z7cAmnO9WrOHLNk4vtb2KaJ1/XgVyaK2C+rruZYoMo+Uwpnza7rxCpUeFUhJDm9w8fO/Y8xwHC9GzP5n2F94wfutjRX2hfpEDory+gqdE0x6VCvNJaV30jSaxclZYhUev46nr0laVFN1tuAManYJTAll2D1+V/urNVDA0RC8vVAJJ4=
