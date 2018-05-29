@@ -8,7 +8,7 @@
     "dev": "./node_modules/.bin/nodemon index.js",
     "test": "./node_modules/.bin/jest",
     "lint": "./node_modules/.bin/standard",
-    "deploy": "./node_modules/.bin/now -e NODE_ENV=production --token $NOW_TOKEN --npm",
+    "deploy": "./node_modules/.bin/now -e NODE_ENV=production --token $NOW_TOKEN --npm --public",
     "alias": "./node_modules/.bin/now alias --token=$NOW_TOKEN"
   },
   "author": "antoinechalifour <antoine.chalifour@gmail.com>",
