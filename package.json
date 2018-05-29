@@ -7,8 +7,8 @@
     "dev": "./node_modules/.bin/nodemon index.js",
     "test": "./node_modules/.bin/jest",
     "lint": "./node_modules/.bin/standard",
-    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm",
-    "alias": "now alias --token=$NOW_TOKEN"
+    "deploy": "./node_modules/.bin/now -e NODE_ENV=production --token $NOW_TOKEN --npm",
+    "alias": "./node_modules/.bin/now alias --token=$NOW_TOKEN"
   },
   "author": "antoinechalifour <antoine.chalifour@gmail.com>",
   "license": "ISC",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "jest": "^22.4.4",
     "nodemon": "^1.17.4",
+    "now": "^11.1.16",
     "standard": "^11.0.1"
   },
   "standard": {
