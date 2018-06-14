@@ -75,12 +75,22 @@ io.on('connection', socket => {
       console.log(
         `Host "${socket.id} has been disconnected (${socket.__party})"`
       )
-      partyService.deleteParty(socket.__party)
+
+      try {
+        partyService.deleteParty(socket.__party)
+      } catch (err) {
+        // Ignore this error
+      }
     } else if (socket.__role === 'guest') {
       console.log(
         `Guest "${socket.id} has been disconnected (${socket.__party})"`
       )
-      partyService.leaveParty(socket.__party, socket.id)
+
+      try {
+        partyService.leaveParty(socket.__party, socket.id)
+      } catch (err) {
+        // Ignore this error
+      }
     }
   })
 })
