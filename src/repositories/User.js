@@ -20,6 +20,10 @@ module.exports = class UserRepository {
     this._users[userId].connectionId = connectionId
   }
 
+  findByPartyId (partyId) {
+    return Object.values(this._users).filter(x => x.partyId === partyId)
+  }
+
   findByConnectionId (connectionId) {
     return (
       Object.values(this._users).find(x => x.connectionId === connectionId) ||

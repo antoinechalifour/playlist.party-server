@@ -1,1 +1,20 @@
-<h1>Hello world</h1>
+<h1>Debug screen</h1>
+
+<table>
+  <tr>
+    <td>Party name</td>
+    <td>Users</td>
+  </tr>
+  <% data.forEach(data => { %>
+  <tr>
+    <td><%= data.party.id %></td>
+    <td>
+      <ul>
+      <% data.users.forEach(user => { %>
+        <li><%= user.id %> (<%= user.connectionId %>)</li>
+      <% }) %>
+      </ul>
+    <td>
+  </tr>
+  <% }) %>
+</table>

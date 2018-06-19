@@ -3,6 +3,7 @@ const EventBusDispatcherMiddleware = require('./Commands/middlewares/EventDispat
 const LoggerMiddleware = require('./Commands/middlewares/LoggerMiddleware')
 const CreatePartyHandler = require('./Commands/CreateParty/Handler')
 const JoinPartyHandler = require('./Commands/JoinParty/Handler')
+const LeavePartyHandler = require('./Commands/LeaveParty/Handler')
 
 module.exports = function createCommandBus (eventBus, container) {
   const handlers = [
@@ -11,7 +12,8 @@ module.exports = function createCommandBus (eventBus, container) {
       container.tokenService,
       container.partyRepository,
       container.userRepository
-    )
+    ),
+    new LeavePartyHandler(container.userRepository)
   ]
   const bus = new LoggerMiddleware(
     new EventBusDispatcherMiddleware(new Dispatcher(handlers), eventBus),

@@ -5,6 +5,10 @@ module.exports = class PartyRepository {
     this._parties = []
   }
 
+  findAll () {
+    return this._parties
+  }
+
   create (name, code, hostId) {
     const party = {
       id: uuid.v4(),
