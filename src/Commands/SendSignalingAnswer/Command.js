@@ -7,7 +7,7 @@ class SendSignalingAnswerCommand extends Command {
    * Builds a SendSignalingAnswerCommand
    * @param {string} from - The emitter connection id.
    * @param {string} to - The receiver user id.
-   * @param {string} description - The offer.
+   * @param {string} description - The answer.
    */
   constructor (from, to, description) {
     super(COMMAND_TYPE)
