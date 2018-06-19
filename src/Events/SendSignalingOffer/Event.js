@@ -6,14 +6,14 @@ class SendSignalingOfferEvent extends Event {
   /**
    * Builds the event.
    * @param {string} emitterId - The emitter user id.
-   * @param {string} receiverConnectionId - The receiver connection id.
+   * @param {string} receiverId - The receiver user id.
    * @param {string} offer - The offer.
    */
-  constructor (emitterId, receiverConnectionId, offer) {
+  constructor (emitterId, receiverId, offer) {
     super(EVENT_TYPE)
 
     this.emitterId = emitterId
-    this.receiverConnectionId = receiverConnectionId
+    this.receiverId = receiverId
     this.offer = offer
   }
 }

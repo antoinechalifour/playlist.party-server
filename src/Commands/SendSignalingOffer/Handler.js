@@ -13,11 +13,7 @@ module.exports = class SendSignalingOfferCommandHandler {
 
     return CommandResponse.withValue(
       null,
-      new SendSignalingOfferEvent(
-        emitter.id,
-        receiver.connectionId,
-        command.description
-      )
+      new SendSignalingOfferEvent(emitter.id, receiver.id, command.description)
     )
   }
 

@@ -19,18 +19,23 @@ const SendSignalingOfferCommand = require('./src/Commands/SendSignalingOffer/Com
 const SendSignalingAnswerCommand = require('./src/Commands/SendSignalingAnswer/Command')
 const SendSignalingCandidateCommand = require('./src/Commands/SendSignalingCandidate/Command')
 
-const container = {
-  tokenService: new TokenService(process.env.JWT_SECRET),
-  partyRepository: new PartyRepository(),
-  userRepository: new UserRepository()
-}
-
 const app = new Koa()
 const server = http.createServer(app.callback())
 const io = Io(server)
 
-const eventBus = createEventBus(io)
-const commandBus = createCommandBus(eventBus, container)
+const tokenService = new TokenService(process.env.JWT_SECRET)
+const partyRepository = new PartyRepository()
+const userRepository = new UserRepository()
+
+const container = {
+  tokenService,
+  partyRepository,
+  userRepository,
+  io
+}
+
+const eventBus = createEventBus(container)
+const commandBus = createCommandBus(Object.assign({}, container, { eventBus }))
 
 render(app, {
   root: path.join(__dirname, 'views'),
@@ -71,14 +76,14 @@ io.on('connection', socket => {
 
   socket.on('party/join', async ({ party, code, accessToken }, ack) => {
     const response = await commandBus.dispatch(
-      new JoinPartyCommand(party, code, accessToken)
+      new JoinPartyCommand(party, code, accessToken, socket.id)
     )
 
     if (response.error) {
       ack(response.error)
     } else {
       socket.__role = 'guest'
-      ack()
+      ack(null, { accessToken: response.value })
     }
   })
 
@@ -104,25 +109,25 @@ io.on('connection', socket => {
     // TODO:
     if (socket.__role === 'host') {
     } else {
-      await commandBus.dispatch(new LeavePartyCommand(socket.id))
+      // await commandBus.dispatch(new LeavePartyCommand(socket.id))
     }
   })
 })
 
 // --------------------- TESTS
-;(async function () {
-  const joinParty = new JoinPartyCommand('test', '123', null, 'con-1')
+// ;(async function () {
+//   const joinParty = new JoinPartyCommand('test', '123', null, 'con-1')
 
-  const createParty = new CreatePartyCommand('test', '1234', 'host-id')
-  const joinParty2 = new JoinPartyCommand('test', '123', null, 'con-2')
+//   const createParty = new CreatePartyCommand('test', '1234', 'host-id')
+//   const joinParty2 = new JoinPartyCommand('test', '123', null, 'con-2')
 
-  await commandBus.dispatch(joinParty)
-  await commandBus.dispatch(createParty)
-  await commandBus.dispatch(joinParty2)
-  await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-3'))
-  await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-4'))
-  await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-5'))
-  await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-6'))
-  await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-7'))
-  await commandBus.dispatch(new LeavePartyCommand('con-5'))
-})()
+//   await commandBus.dispatch(joinParty)
+//   await commandBus.dispatch(createParty)
+//   await commandBus.dispatch(joinParty2)
+//   await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-3'))
+//   await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-4'))
+//   await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-5'))
+//   await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-6'))
+//   await commandBus.dispatch(new JoinPartyCommand('test', '1234', null, 'con-7'))
+//   await commandBus.dispatch(new LeavePartyCommand('con-5'))
+// })()

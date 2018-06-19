@@ -10,6 +10,7 @@ module.exports = class LoggerMiddleware {
   }
 
   async dispatch (command) {
+    console.log('\n\n\n\n')
     const before = new Date()
     const commandType = command.type
     let response
@@ -17,13 +18,19 @@ module.exports = class LoggerMiddleware {
     try {
       response = await this.next.dispatch(command)
     } catch (err) {
-      this.logger.error(`[${commandType}] ERROR:`, err)
+      this.logger.error(`[${commandType}] ERROR:`, {
+        command,
+        err
+      })
       throw err
     }
 
     const after = new Date()
 
-    this.logger.log(`[${commandType}] took ${after - before}ms`, response)
+    this.logger.log(`[${commandType}] took ${after - before}ms`, {
+      command,
+      response
+    })
 
     return response
   }

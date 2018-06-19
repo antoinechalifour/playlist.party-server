@@ -9,6 +9,10 @@ module.exports = class PartyRepository {
     return this._parties
   }
 
+  findById (id) {
+    return this._parties.find(x => x.id === id) || null
+  }
+
   create (name, code, hostId) {
     const party = {
       id: uuid.v4(),

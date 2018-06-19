@@ -15,7 +15,7 @@ module.exports = class SendSignalingCandidateCommandHandler {
       null,
       new SendSignalingCandidateEvent(
         emitter.id,
-        receiver.connectionId,
+        receiver.id,
         command.candidate
       )
     )

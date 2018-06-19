@@ -15,9 +15,20 @@ module.exports = class UserRepository {
     return user
   }
 
+  joinAsCreator (userId, partyId, connectionId) {
+    this._users[userId].partyId = partyId
+    this._users[userId].connectionId = connectionId
+    this._users[userId].role = 'host'
+  }
+
   joinParty (userId, partyId, connectionId) {
     this._users[userId].partyId = partyId
     this._users[userId].connectionId = connectionId
+    this._users[userId].role = 'guest'
+  }
+
+  findById (id) {
+    return this._users[id]
   }
 
   findByPartyId (partyId) {

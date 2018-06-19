@@ -41,11 +41,7 @@ test('Returns the correct command response', async () => {
   expect(response).toEqual(
     CommandResponse.withValue(
       null,
-      new SendSignalingCandidateEvent(
-        '45',
-        'receiver-connection-id',
-        'candidate'
-      )
+      new SendSignalingCandidateEvent('45', '56', 'candidate')
     )
   )
 })
