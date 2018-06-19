@@ -30,6 +30,12 @@ module.exports = class JoinPartyCommandHandler {
       const decodedToken = await this.tokenService.decode(command.accessToken)
 
       if (decodedToken.partyId === party.id) {
+        await this.userRepository.joinParty(
+          decodedToken.userId,
+          party.id,
+          command.connectionId
+        )
+
         return CommandResponse.withValue(
           command.accessToken,
           new UserJoinedPartyEvent(decodedToken.userId, party.id)
@@ -43,6 +49,8 @@ module.exports = class JoinPartyCommandHandler {
       userId: user.id,
       partyId: party.id
     })
+
+    await this.userRepository.joinParty(user.id, party.id, command.connectionId)
 
     return CommandResponse.withValue(
       accessToken,
