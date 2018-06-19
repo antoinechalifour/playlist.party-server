@@ -16,6 +16,7 @@ const CreatePartyCommand = require('./src/Commands/CreateParty/Command')
 const JoinPartyCommand = require('./src/Commands/JoinParty/Command')
 const LeavePartyCommand = require('./src/Commands/LeaveParty/Command')
 const SendSignalingOfferCommand = require('./src/Commands/SendSignalingOffer/Command')
+const SendSignalingAnswerCommand = require('./src/Commands/SendSignalingAnswer/Command')
 
 const container = {
   tokenService: new TokenService(process.env.JWT_SECRET),
@@ -86,8 +87,10 @@ io.on('connection', socket => {
     )
   })
 
-  socket.on('signaling/answer', ({ remoteId, description }) => {
-    // TODO:
+  socket.on('signaling/answer', async ({ remoteId, description }) => {
+    await commandBus.dispatch(
+      new SendSignalingAnswerCommand(socket.id, remoteId, description)
+    )
   })
 
   socket.on('signaling/candidate', ({ remoteId, candidate }) => {

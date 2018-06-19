@@ -1,8 +1,8 @@
-const SendSignalingOfferCommand = require('./Command')
+const SendSignalingAnswerCommand = require('./Command')
 const CommandResponse = require('../Response')
-const SendSignalingOfferEvent = require('../../Events/SendSignalingOffer/Event')
+const SendSignalingAnswerEvent = require('../../Events/SendSignalingAnswer/Event')
 
-module.exports = class SendSignalingOfferCommandHandler {
+module.exports = class SendSignalingAnswerCommandHandler {
   constructor (userRepository) {
     this.userRepository = userRepository
   }
@@ -13,7 +13,7 @@ module.exports = class SendSignalingOfferCommandHandler {
 
     return CommandResponse.withValue(
       null,
-      new SendSignalingOfferEvent(
+      new SendSignalingAnswerEvent(
         emitter.id,
         receiver.connectionId,
         command.description
@@ -22,6 +22,6 @@ module.exports = class SendSignalingOfferCommandHandler {
   }
 
   listenTo () {
-    return SendSignalingOfferCommand.COMMAND_TYPE
+    return SendSignalingAnswerCommand.COMMAND_TYPE
   }
 }
