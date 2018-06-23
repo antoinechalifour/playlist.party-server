@@ -1,8 +1,7 @@
 const { EVENT_TYPE } = require('./Event')
 
 module.exports = class UserJoinedPartyEventHandler {
-  constructor (userRepository, partyRepository, io) {
-    this.userRepository = userRepository
+  constructor (partyRepository, io) {
     this.partyRepository = partyRepository
     this.io = io
   }

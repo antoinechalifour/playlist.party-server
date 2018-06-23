@@ -15,7 +15,7 @@ module.exports = function createEventBus ({
   io
 }) {
   const handlers = [
-    new UserJoinedPartyHandler(userRepository, partyRepository, io),
+    new UserJoinedPartyHandler(partyRepository, io),
     new UserLeftPartyHandler(io),
     new SendSignalingOfferHandler(userRepository, io),
     new SendSignalingAnswerHandler(userRepository, io),
