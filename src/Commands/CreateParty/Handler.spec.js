@@ -14,10 +14,15 @@ test('Returns an error command when the party already exists', async () => {
     name: 'Playlist.party',
     hostId: 'host-id'
   }
+  const user = { userId: 'user-id' }
+  const userRepository = {
+    create: jest.fn().mockResolvedValue(user),
+    joinAsCreator: jest.fn()
+  }
   const partyRepository = {
     findByName: jest.fn().mockResolvedValue(party)
   }
-  const handler = new CreatePartyHandler(partyRepository)
+  const handler = new CreatePartyHandler(userRepository, partyRepository)
   const command = new CreatePartyCommand('Playlist.party', '1234', 'host-id')
 
   const result = await handler.handle(command)
@@ -36,12 +41,17 @@ test('Creates the party otherwise', async () => {
     code: '1234',
     hostId: 'host-id'
   }
+  const user = { userId: 'user-id' }
+  const userRepository = {
+    create: jest.fn().mockResolvedValue(user),
+    joinAsCreator: jest.fn()
+  }
   const partyRepository = {
     findByName: jest.fn().mockResolvedValue(null),
     create: jest.fn().mockResolvedValue(party)
   }
 
-  const handler = new CreatePartyHandler(partyRepository)
+  const handler = new CreatePartyHandler(userRepository, partyRepository)
   const command = new CreatePartyCommand('Playlist.party', '1234', 'host-id')
 
   const result = await handler.handle(command)
@@ -49,6 +59,7 @@ test('Creates the party otherwise', async () => {
   expect(result).toBeInstanceOf(CommandResponse)
   expect(result.value).toEqual('party-id')
   expect(result.events).toEqual([])
+  expect(userRepository.create.mock.calls.length).toBe(1)
   expect(partyRepository.create.mock.calls.length).toBe(1)
   expect(partyRepository.create.mock.calls[0]).toEqual([
     'Playlist.party',
