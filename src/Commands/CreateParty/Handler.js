@@ -30,7 +30,7 @@ module.exports = class CreatePartyHandler {
     const party = await this.partyRepository.create(
       command.partyName,
       command.code,
-      command.hostId
+      user.id
     )
 
     await this.userRepository.joinAsCreator(user.id, party.id, command.hostId)

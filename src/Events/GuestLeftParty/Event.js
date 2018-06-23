@@ -1,8 +1,8 @@
 const Event = require('../Event')
 
-const EVENT_TYPE = 'UserLeftPartyEvent'
+const EVENT_TYPE = 'GuestLeftPartyEvent'
 
-class UserLeftPartyEvent extends Event {
+class GuestLeftPartyEvent extends Event {
   /**
    * Builds the event.
    * @param {string} userId - The user id.
@@ -16,6 +16,6 @@ class UserLeftPartyEvent extends Event {
   }
 }
 
-UserLeftPartyEvent.EVENT_TYPE = EVENT_TYPE
+GuestLeftPartyEvent.EVENT_TYPE = EVENT_TYPE
 
-module.exports = UserLeftPartyEvent
+module.exports = GuestLeftPartyEvent

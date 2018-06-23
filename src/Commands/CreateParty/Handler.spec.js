@@ -41,7 +41,7 @@ test('Creates the party otherwise', async () => {
     code: '1234',
     hostId: 'host-id'
   }
-  const user = { userId: 'user-id' }
+  const user = { id: 'user-id' }
   const userRepository = {
     create: jest.fn().mockResolvedValue(user),
     joinAsCreator: jest.fn()
@@ -64,6 +64,6 @@ test('Creates the party otherwise', async () => {
   expect(partyRepository.create.mock.calls[0]).toEqual([
     'Playlist.party',
     '1234',
-    'host-id'
+    'user-id'
   ])
 })

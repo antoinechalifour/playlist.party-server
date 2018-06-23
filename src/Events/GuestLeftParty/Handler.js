@@ -1,8 +1,9 @@
 const { EVENT_TYPE } = require('./Event')
 
 module.exports = class UserLeftPartyEventHandler {
-  constructor (userRepository, io) {
+  constructor (userRepository, partyRepository, io) {
     this.userRepository = userRepository
+    this.partyRepository = partyRepository
     this.io = io
   }
 
@@ -11,9 +12,12 @@ module.exports = class UserLeftPartyEventHandler {
    * @param {{ userId: string, partyId: string }} event - The event.
    */
   async handle (event) {
-    const user = await this.userRepository.findById(event.userId)
+    const party = await this.partyRepository.findById(event.partyId)
+    const host = await this.userRepository.findById(party.hostId)
 
-    this.io.to(user.connectionId).emit('signaling/leave')
+    this.io
+      .to(host.connectionId)
+      .emit('signaling/leave', { remoteId: event.userId })
   }
 
   listenTo () {

@@ -1,7 +1,8 @@
 const { EVENT_TYPE } = require('./Event')
 
 module.exports = class UserJoinedPartyEventHandler {
-  constructor (partyRepository, io) {
+  constructor (userRepository, partyRepository, io) {
+    this.userRepository = userRepository
     this.partyRepository = partyRepository
     this.io = io
   }
@@ -12,8 +13,9 @@ module.exports = class UserJoinedPartyEventHandler {
    */
   async handle (event) {
     const party = await this.partyRepository.findById(event.partyId)
+    const host = await this.userRepository.findById(party.hostId)
 
-    this.io.to(party.hostId).emit('signaling/join', {
+    this.io.to(host.connectionId).emit('signaling/join', {
       remoteId: event.userId
     })
   }

@@ -13,6 +13,7 @@ const createEventBus = require('./src/createEventBus')
 const createCommandBus = require('./src/createCommandBus')
 
 const CreatePartyCommand = require('./src/Commands/CreateParty/Command')
+const DeletePartyCommand = require('./src/Commands/DeletePartyCommand/Command')
 const JoinPartyCommand = require('./src/Commands/JoinParty/Command')
 const LeavePartyCommand = require('./src/Commands/LeaveParty/Command')
 const SendSignalingOfferCommand = require('./src/Commands/SendSignalingOffer/Command')
@@ -61,6 +62,8 @@ server.listen(process.env.PORT, () =>
 )
 
 io.on('connection', socket => {
+  socket.__data = {}
+
   socket.on('party/create', async ({ party, code }, ack) => {
     const response = await commandBus.dispatch(
       new CreatePartyCommand(party, code, socket.id)
@@ -69,7 +72,9 @@ io.on('connection', socket => {
     if (response.error) {
       ack(response.error)
     } else {
-      socket.__role = 'host'
+      socket.__data.role = 'host'
+      socket.__data.partyId = response.value
+
       ack()
     }
   })
@@ -82,7 +87,8 @@ io.on('connection', socket => {
     if (response.error) {
       ack(response.error)
     } else {
-      socket.__role = 'guest'
+      socket.__data.role = 'guest'
+
       ack(null, { accessToken: response.value })
     }
   })
@@ -106,12 +112,16 @@ io.on('connection', socket => {
   })
 
   socket.on('disconnect', async () => {
-    // TODO:
-    if (socket.__role === 'host') {
+    if (socket.__data.role === 'host') {
+      await commandBus.dispatch(new DeletePartyCommand(socket.__data.partyId))
     } else {
-      // await commandBus.dispatch(new LeavePartyCommand(socket.id))
+      await commandBus.dispatch(new LeavePartyCommand(socket.id))
     }
   })
+})
+
+process.on('unhandledRejection', error => {
+  console.log('unhandledRejection', error)
 })
 
 // --------------------- TESTS

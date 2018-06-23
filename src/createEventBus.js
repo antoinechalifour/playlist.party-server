@@ -1,9 +1,11 @@
 const EventBus = require('./Events/Dispatcher')
-const UserJoinedPartyHandler = require('./Events/UserJoinedParty/Handler')
-const UserLeftPartyHandler = require('./Events/UserLeftParty/Handler')
-const SendSignalingOfferHandler = require('./Events/SendSignalingOffer/Handler')
+const LoggerMiddleware = require('./Events/middlewares/LoggerMiddleware')
+const GuestLeftPartyHandler = require('./Events/GuestLeftParty/Handler')
+const PartyDeletedEventHandler = require('./Events/PartyDeleted/Handler')
 const SendSignalingAnswerHandler = require('./Events/SendSignalingAnswer/Handler')
 const SendSignalingCandidateHandler = require('./Events/SendSignalingCandidate/Handler')
+const SendSignalingOfferHandler = require('./Events/SendSignalingOffer/Handler')
+const UserJoinedPartyHandler = require('./Events/UserJoinedParty/Handler')
 
 /**
  * Creates the event bus.
@@ -15,13 +17,14 @@ module.exports = function createEventBus ({
   io
 }) {
   const handlers = [
-    new UserJoinedPartyHandler(partyRepository, io),
-    new UserLeftPartyHandler(io),
-    new SendSignalingOfferHandler(userRepository, io),
+    new GuestLeftPartyHandler(userRepository, partyRepository, io),
+    new PartyDeletedEventHandler(userRepository, io),
     new SendSignalingAnswerHandler(userRepository, io),
-    new SendSignalingCandidateHandler(userRepository, io)
+    new SendSignalingCandidateHandler(userRepository, io),
+    new SendSignalingOfferHandler(userRepository, io),
+    new UserJoinedPartyHandler(userRepository, partyRepository, io)
   ]
-  const bus = new EventBus(handlers)
+  const bus = new LoggerMiddleware(new EventBus(handlers), console)
 
   return bus
 }

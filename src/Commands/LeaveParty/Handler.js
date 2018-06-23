@@ -1,6 +1,6 @@
 const LeavePartyCommand = require('./Command')
 const CommandResponse = require('../Response')
-const UserLeftPartyEvent = require('../../Events/UserLeftParty/Event')
+const GuestLeftPartyEvent = require('../../Events/GuestLeftParty/Event')
 
 module.exports = class LeavePartyCommandHandler {
   constructor (userRepository) {
@@ -17,7 +17,7 @@ module.exports = class LeavePartyCommandHandler {
 
     return CommandResponse.withValue(
       user.id,
-      new UserLeftPartyEvent(user.id, partyId)
+      new GuestLeftPartyEvent(user.id, partyId)
     )
   }
 

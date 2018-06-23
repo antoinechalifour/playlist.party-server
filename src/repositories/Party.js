@@ -13,6 +13,10 @@ module.exports = class PartyRepository {
     return this._parties.find(x => x.id === id) || null
   }
 
+  findByName (name) {
+    return this._parties.find(x => x.name === name) || null
+  }
+
   create (name, code, hostId) {
     const party = {
       id: uuid.v4(),
@@ -25,7 +29,7 @@ module.exports = class PartyRepository {
     return party
   }
 
-  findByName (name) {
-    return this._parties.find(x => x.name === name) || null
+  delete (id) {
+    this._parties = this._parties.filter(x => x.id !== id)
   }
 }

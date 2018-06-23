@@ -9,16 +9,16 @@ module.exports = class LoggerMiddleware {
     this.logger = logger
   }
 
-  async dispatch (command) {
+  async dispatch (event) {
     const before = new Date()
-    const commandType = command.type
+    const commandType = event.type
     let response
 
     try {
-      response = await this.next.dispatch(command)
+      response = await this.next.dispatch(event)
     } catch (err) {
-      this.logger.error(`(command)/${commandType} ERROR:`, {
-        command,
+      this.logger.error(`(event)/${commandType} ERROR:`, {
+        event,
         err
       })
       throw err
@@ -27,9 +27,8 @@ module.exports = class LoggerMiddleware {
     const after = new Date()
 
     console.log('\n---\n')
-    this.logger.log(`(command)/${commandType} took ${after - before}ms`, {
-      command,
-      response
+    this.logger.log(`(event)/${commandType} took ${after - before}ms`, {
+      event
     })
 
     return response

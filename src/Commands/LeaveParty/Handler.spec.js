@@ -1,7 +1,7 @@
 const LeavePartyHandler = require('./Handler')
 const LeavePartyCommand = require('./Command')
 const CommandResponse = require('../Response')
-const UserLeftPartyEvent = require('../../Events/UserLeftParty/Event')
+const GuestLeftPartyEvent = require('../../Events/GuestLeftParty/Event')
 
 test('Listens to the correct type', () => {
   const handler = new LeavePartyHandler()
@@ -34,5 +34,5 @@ test('Unsets the user current party and returns the command response', async () 
 
   expect(response).toBeInstanceOf(CommandResponse)
   expect(response.value).toBe('45')
-  expect(response.events).toEqual([new UserLeftPartyEvent('45', 'party-id')])
+  expect(response.events).toEqual([new GuestLeftPartyEvent('45', 'party-id')])
 })
