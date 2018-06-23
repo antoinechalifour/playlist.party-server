@@ -70,7 +70,7 @@ io.on('connection', socket => {
     )
 
     if (response.error) {
-      ack(response.error)
+      ack(response.error.message)
     } else {
       socket.__data.role = 'host'
       socket.__data.partyId = response.value
@@ -85,7 +85,7 @@ io.on('connection', socket => {
     )
 
     if (response.error) {
-      ack(response.error)
+      ack(response.error.message)
     } else {
       socket.__data.role = 'guest'
 
@@ -114,7 +114,7 @@ io.on('connection', socket => {
   socket.on('disconnect', async () => {
     if (socket.__data.role === 'host') {
       await commandBus.dispatch(new DeletePartyCommand(socket.__data.partyId))
-    } else {
+    } else if (socket.__data.role === 'guest') {
       await commandBus.dispatch(new LeavePartyCommand(socket.id))
     }
   })
