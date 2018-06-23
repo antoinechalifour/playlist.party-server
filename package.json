@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "./node_modules/.bin/nodemon index.js",
-    "test": "./node_modules/.bin/jest",
+    "test": "./node_modules/.bin/jest src/",
     "lint": "./node_modules/.bin/standard",
     "deploy": "./node_modules/.bin/now -e NODE_ENV=production --token $NOW_TOKEN --npm --public",
     "alias": "./node_modules/.bin/now alias --token=$NOW_TOKEN"
