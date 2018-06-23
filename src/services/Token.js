@@ -18,8 +18,11 @@ module.exports = class TokenService {
   }
 
   create (payload) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       jwt.sign(payload, this.secret, { expiresIn: '1h' }, (err, token) => {
+        if (err) {
+          return reject(err)
+        }
         resolve(token)
       })
     })
