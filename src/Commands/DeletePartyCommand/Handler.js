@@ -1,4 +1,5 @@
 const CommandResponse = require('../Response')
+const DeletePartyCommand = require('./Command')
 const PartyDeletedEvent = require('../../Events/PartyDeleted/Event')
 
 module.exports = class DeletePartyHandler {
@@ -25,5 +26,9 @@ module.exports = class DeletePartyHandler {
       null,
       new PartyDeletedEvent(command.partyId, users.map(x => x.id))
     )
+  }
+
+  listenTo () {
+    return DeletePartyCommand.COMMAND_TYPE
   }
 }
