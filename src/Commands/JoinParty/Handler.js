@@ -27,19 +27,23 @@ module.exports = class JoinPartyCommandHandler {
     }
 
     if (command.accessToken) {
-      const decodedToken = await this.tokenService.decode(command.accessToken)
+      try {
+        const decodedToken = await this.tokenService.decode(command.accessToken)
 
-      if (decodedToken.partyId === party.id) {
-        await this.userRepository.joinParty(
-          decodedToken.userId,
-          party.id,
-          command.connectionId
-        )
+        if (decodedToken.partyId === party.id) {
+          await this.userRepository.joinParty(
+            decodedToken.userId,
+            party.id,
+            command.connectionId
+          )
 
-        return CommandResponse.withValue(
-          command.accessToken,
-          new UserJoinedPartyEvent(decodedToken.userId, party.id)
-        )
+          return CommandResponse.withValue(
+            command.accessToken,
+            new UserJoinedPartyEvent(decodedToken.userId, party.id)
+          )
+        }
+      } catch (err) {
+        // Failed to decode token. Ignore and re-create a user.
       }
     }
 
