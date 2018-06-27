@@ -7,6 +7,7 @@ cache:
 before_script:
 - npm run lint
 - npm test
+- codecov
 script: npm run deploy
 after_script: 
   - npm run alias
