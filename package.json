@@ -41,5 +41,9 @@
       "PORT": 3000,
       "JWT_SECRET": "@jwt-secret"
     }
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   }
 }
